@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise;
+using Blazorise.Bulma;
+using Blazorise.Icons.FontAwesome;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +29,13 @@ namespace SchnauzOnline
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services
+              .AddBlazorise(options =>
+              {
+                  options.ChangeTextOnKeyPress = true;
+              }) // from v0.6.0-preview4
+              .AddBulmaProviders()
+              .AddFontAwesomeIcons();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
@@ -49,6 +59,10 @@ namespace SchnauzOnline
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.ApplicationServices
+                 .UseBulmaProviders()
+                 .UseFontAwesomeIcons();
 
             app.UseEndpoints(endpoints =>
             {

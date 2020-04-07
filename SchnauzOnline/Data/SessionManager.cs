@@ -7,5 +7,8 @@ namespace SchnauzOnline.Data
 {
     public class SessionManager
     {
+        private IList<Session> Sessions { get; } = new List<Session>();
+
+        //public SessionList
     }
 }
