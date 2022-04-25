@@ -1,0 +1,45 @@
+﻿@page "/Tisch/{Tischname}"
+@inject NavigationManager NavigationManager
+
+<Heading Size="HeadingSize.Is3">Tisch: @Tischname</Heading>
+
+<Card Margin="Margin.Is5">
+    <CardBody>
+        <CardTitle>Dein Namen</CardTitle>
+        <CardText>
+            Gib einen Namen an
+        </CardText>
+    </CardBody>
+    <CardBody>
+        <Validation Validator="@ValidateNameFrei">
+            <TextEdit @bind-Text="@Name" Placeholder="Name" MaskType="MaskType.RegEx" EditMask="^[a-zA-Z0-9]*$">
+                <Feedback>
+                    <ValidationSuccess>Tisch ist noch frei</ValidationSuccess>
+                    <ValidationError>Tisch schon belegt.</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Validation>
+    </CardBody>
+    <CardActions><Button Color="Color.Primary" @onclick="TischBetreten">Tisch betreten</Button></CardActions>
+</Card>
+
+
+@code{
+    [Parameter]
+    public string Tischname { get; set; }
+
+    public string Name { get; set; }
+
+    void ValidateNameFrei(ValidatorEventArgs e)
+    {
+
+    }
+
+    void TischBetreten()
+    {
+        // Tisch reservieren (z.B. Cookie)
+
+        if (!string.IsNullOrEmpty(Name))
+            NavigationManager.NavigateTo("Tisch/" + Tischname + "/" + Name);
+    }
+}

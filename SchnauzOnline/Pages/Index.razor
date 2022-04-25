@@ -1,0 +1,51 @@
+﻿@page "/"
+@inject NavigationManager NavigationManager
+
+<Heading Size="HeadingSize.Is1">Willkommen zu Schaunz Online</Heading>
+
+<Card Margin="Margin.Is5">
+    <CardBody>
+        <CardTitle>Neues Spiel</CardTitle>
+        <CardText>
+            Legen einen neuen Tisch an, um Freunde zum Spielen einzuladen.
+        </CardText>
+    </CardBody>
+    <CardBody>
+        <Validation Validator="@ValidateTischFrei">
+            <TextEdit @bind-Text="@NeuerTischName" Placeholder="Tischname" MaskType="MaskType.RegEx" EditMask="^[a-zA-Z0-9]*$">
+                <Feedback>
+                    <ValidationSuccess>Tisch ist noch frei</ValidationSuccess>
+                    <ValidationError>Tisch schon belegt.</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Validation>
+    </CardBody>
+    <CardActions><Button Color="Color.Primary" @onclick="TischAnlegen">Neuen Tisch anlegen</Button></CardActions>
+</Card>
+
+<Card Margin="Margin.Is5">
+    <CardHeader>Spiel beitreten</CardHeader>
+</Card>
+
+@code{
+
+    public string NeuerTischName { get; set; }
+
+    void ValidateTischFrei(ValidatorEventArgs e)
+    {
+        var tischname = Convert.ToString(e.Value);
+
+        if (string.IsNullOrEmpty(tischname))
+        {
+            e.Status = ValidationStatus.None;
+        }
+        else
+            e.Status = tischname == "test" ? ValidationStatus.Error : ValidationStatus.Success;
+    }
+
+    void TischAnlegen()
+    {
+        if (!string.IsNullOrEmpty(NeuerTischName))
+            NavigationManager.NavigateTo("Tisch/" + NeuerTischName);
+    }
+}
